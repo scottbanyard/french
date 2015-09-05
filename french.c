@@ -120,7 +120,9 @@ int numbers() {
 	// starts test
 	printf("Would you like to take a quick test?\n");
 	scanf("%s", &yesno);
-	if(strcmp(yesno, "yes")==0){
+	if(strcmp(yesno, "no")==0){
+		return 0;
+	} else {
 		numberstest();
 	}
 
@@ -148,7 +150,7 @@ int months() {
 	else if(strcmp(month, "may")==0) {
 		printf("mai\n");
 	}
-	if(strcmp(month, "june")==0) {
+	else if(strcmp(month, "june")==0) {
 		printf("juin\n");
 	}
 	else if(strcmp(month, "july")==0) {
@@ -184,7 +186,9 @@ int months() {
 	// starts test
 	printf("Would you like to take a quick test?\n");
 	scanf("%s", &yesno);
-	if(strcmp(yesno, "yes")==0){
+	if(strcmp(yesno, "no")==0){
+		return 0;
+	} else {
 		monthstest();
 	}
 
@@ -248,7 +252,9 @@ int colours() {
 	// starts test
 	printf("Would you like to take a quick test?\n");
 	scanf("%s", &yesno);
-	if(strcmp(yesno, "yes")==0){
+	if(strcmp(yesno, "no")==0){
+		return 0;
+	} else {
 		colourstest();
 	}
 
@@ -386,6 +392,7 @@ int numberstest() {
 	printf("What is '15' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "quinze")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'quinze'.\n");
@@ -395,6 +402,7 @@ int numberstest() {
 	printf("What is '21' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "vingt-et-un")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'vingt-et-un'.\n");
@@ -404,6 +412,7 @@ int numberstest() {
 	printf("What is '30' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "trente")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'trente'.\n");
@@ -413,6 +422,7 @@ int numberstest() {
 	printf("What is '100' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "cent")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'cent'.\n");
@@ -422,6 +432,7 @@ int numberstest() {
 	printf("What is '80' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "quatre-vingt")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'quatre-vingt'.\n");
@@ -431,6 +442,7 @@ int numberstest() {
 	printf("What is '90' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "quatre-vingt-dix")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'quatre-vingt-dix'.\n");
@@ -440,6 +452,7 @@ int numberstest() {
 	printf("What is '50' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "cinquante")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'cinquante'.\n");
@@ -449,6 +462,7 @@ int numberstest() {
 	printf("What is '65' in French?\n");
 	scanf("%s", &number);
 	if(strcmp(number, "soixante-cinq")==0) {
+		printf("That's correct!\n");
 		score++;
 	} else {
 		printf("That's incorrect, the correct answer is 'soixante-cinq'.\n");
