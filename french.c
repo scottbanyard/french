@@ -1,3 +1,6 @@
+// scott banyard 2015
+// very basic french program that translates numbers, months and colours with little tests - created to recap C and to recap basic french
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
