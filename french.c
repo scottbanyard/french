@@ -112,14 +112,14 @@ int numbers() {
 	// able to repeat function
 	printf("Do you want to know any more numbers?\n");
 	char yesno[2];
-	scanf("%s", &yesno);
+	scanf("%s", yesno);
 	if(strcmp(yesno, "yes")==0) {
 		numbers();
 	}
 
 	// starts test
 	printf("Would you like to take a quick test?\n");
-	scanf("%s", &yesno);
+	scanf("%s", yesno);
 	if(strcmp(yesno, "no")==0){
 		return 0;
 	} else {
@@ -133,7 +133,7 @@ int numbers() {
 int months() {
 	char month[10];
 	printf("Please enter a month: ");
-	scanf("%s", &month);
+	scanf("%s", month);
 		
 	if(strcmp(month, "january")==0) {
 		printf("janvier\n");
@@ -178,14 +178,14 @@ int months() {
 	// able to repeat function
 	printf("Do you want to know any more months?\n");
 	char yesno[2];
-	scanf("%s", &yesno);
+	scanf("%s", yesno);
 	if(strcmp(yesno, "yes")==0) {
 		months();
 	}
 
 	// starts test
 	printf("Would you like to take a quick test?\n");
-	scanf("%s", &yesno);
+	scanf("%s", yesno);
 	if(strcmp(yesno, "no")==0){
 		return 0;
 	} else {
@@ -199,7 +199,7 @@ int months() {
 int colours() {
 	char colour[10];
 	printf("Please enter a colour: ");
-	scanf("%s", &colour);
+	scanf("%s", colour);
 
 	if(strcmp(colour, "red")==0) {
 		printf("rouge\n");
@@ -244,14 +244,14 @@ int colours() {
 	// able to repeat function
 	printf("Do you want to know any more colours?\n");
 	char yesno[2];
-	scanf("%s", &yesno);
+	scanf("%s", yesno);
 	if(strcmp(yesno, "yes")==0) {
 		colours();
 	}
 
 	// starts test
 	printf("Would you like to take a quick test?\n");
-	scanf("%s", &yesno);
+	scanf("%s", yesno);
 	if(strcmp(yesno, "no")==0){
 		return 0;
 	} else {
@@ -268,7 +268,7 @@ int colourstest() {
 
 	// q1
 	printf("What is 'blue' in French?\n");
-	scanf("%s", &colour);
+	scanf("%s", colour);
 	if (strcmp(colour, "bleu")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -278,7 +278,7 @@ int colourstest() {
 
 	// q2
 	printf("What is 'green' in French?\n");
-	scanf("%s", &colour);
+	scanf("%s", colour);
 	if (strcmp(colour, "vert")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -288,7 +288,7 @@ int colourstest() {
 
 	// q3
 	printf("What is 'black' in French?\n");
-	scanf("%s", &colour);
+	scanf("%s", colour);
 	if (strcmp(colour, "noir")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -298,7 +298,7 @@ int colourstest() {
 
 	// q4
 	printf("What is 'purple' in French?\n");
-	scanf("%s", &colour);
+	scanf("%s", colour);
 	if (strcmp(colour, "violet")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -308,7 +308,7 @@ int colourstest() {
 
 	// q5
 	printf("What is 'white' in French?\n");
-	scanf("%s", &colour);
+	scanf("%s", colour);
 	if (strcmp(colour, "blanc")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -329,7 +329,7 @@ int monthstest() {
 
 	// q1
 	printf("What is 'february' in French?\n");
-	scanf("%s", &month);
+	scanf("%s", month);
 	if (strcmp(month, "fevrier")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -339,7 +339,7 @@ int monthstest() {
 
 	// q2
 	printf("What is 'march' in French?\n");
-	scanf("%s", &month);
+	scanf("%s", month);
 	if (strcmp(month, "mars")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -349,7 +349,7 @@ int monthstest() {
 
 	// q3
 	printf("What is 'november' in French?\n");
-	scanf("%s", &month);
+	scanf("%s", month);
 	if (strcmp(month, "novembre")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -359,7 +359,7 @@ int monthstest() {
 
 	// q4
 	printf("What is 'august' in French?\n");
-	scanf("%s", &month);
+	scanf("%s", month);
 	if (strcmp(month, "aout")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -369,7 +369,7 @@ int monthstest() {
 
 	// q5
 	printf("What is 'may' in French?\n");
-	scanf("%s", &month);
+	scanf("%s", month);
 	if (strcmp(month, "mai")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -390,7 +390,7 @@ int numberstest() {
 
 	// q1
 	printf("What is '15' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "quinze")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -400,7 +400,7 @@ int numberstest() {
 
 	// q2
 	printf("What is '21' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "vingt-et-un")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -410,7 +410,7 @@ int numberstest() {
 
 	// q3
 	printf("What is '30' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "trente")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -420,7 +420,7 @@ int numberstest() {
 
 	// q4
 	printf("What is '100' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "cent")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -430,7 +430,7 @@ int numberstest() {
 
 	// q5
 	printf("What is '80' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "quatre-vingt")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -440,7 +440,7 @@ int numberstest() {
 
 	// q6
 	printf("What is '90' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "quatre-vingt-dix")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -450,7 +450,7 @@ int numberstest() {
 
 	// q7
 	printf("What is '50' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "cinquante")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -460,7 +460,7 @@ int numberstest() {
 
 	// q8
 	printf("What is '65' in French?\n");
-	scanf("%s", &number);
+	scanf("%s", number);
 	if(strcmp(number, "soixante-cinq")==0) {
 		printf("That's correct!\n");
 		score++;
@@ -482,7 +482,7 @@ int main() {
 
 	// switchboard 
 	printf("What would you like to know? Numbers, months or colours?\n");
-	scanf("%s", &choice);
+	scanf("%s", choice);
 
 	if(strcmp(choice, "numbers")==0) {
 		numbers();
