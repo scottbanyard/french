@@ -5,8 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+// declaring functions
+void colourstest();
+void numberstest();
+void monthstest();
 
-int numbers() {
+void numbers() {
 	int i;
 	printf("Please enter a number: ");
 	scanf("%d", &i);
@@ -120,17 +124,12 @@ int numbers() {
 	// starts test
 	printf("Would you like to take a quick test?\n");
 	scanf("%s", yesno);
-	if(strcmp(yesno, "no")==0){
-		return 0;
-	} else {
+	if(strcmp(yesno, "yes")==0){
 		numberstest();
 	}
-
-	// ends function
-	return 0;
 }
 
-int months() {
+void months() {
 	char month[10];
 	printf("Please enter a month: ");
 	scanf("%s", month);
@@ -186,17 +185,12 @@ int months() {
 	// starts test
 	printf("Would you like to take a quick test?\n");
 	scanf("%s", yesno);
-	if(strcmp(yesno, "no")==0){
-		return 0;
-	} else {
+	if(strcmp(yesno, "yes")==0){
 		monthstest();
 	}
-
-	// ends function
-	return 0;
 }
 
-int colours() {
+void colours() {
 	char colour[10];
 	printf("Please enter a colour: ");
 	scanf("%s", colour);
@@ -252,17 +246,12 @@ int colours() {
 	// starts test
 	printf("Would you like to take a quick test?\n");
 	scanf("%s", yesno);
-	if(strcmp(yesno, "no")==0){
-		return 0;
-	} else {
+	if(strcmp(yesno, "yes")==0){
 		colourstest();
 	}
-
-	// ends function
-	return 0;
 }
 
-int colourstest() {
+void colourstest() {
 	int score = 0;
 	char colour[10];
 
@@ -318,12 +307,9 @@ int colourstest() {
 
 	// result
 	printf("The test is over. You scored %d out of 5!\n", score);
-
-	// ends function
-	return 0;
 }
 
-int monthstest() {
+void monthstest() {
 	int score = 0;
 	char month[10];
 
@@ -379,12 +365,9 @@ int monthstest() {
 
 	// result
 	printf("The test is over. You scored %d out of 5!\n", score);
-
-	// ends function
-	return 0;
 }
 
-int numberstest() {
+void numberstest() {
 	int score = 0;
 	char number[15];
 
@@ -470,9 +453,6 @@ int numberstest() {
 
 	// result
 	printf("The test is over. You scored %d out of 8!\n", score);
-
-	// ends function
-	return 0;
 }
 
 
@@ -500,5 +480,4 @@ int main() {
 	// ends program successfully
 	return 0;
 }
-
 
