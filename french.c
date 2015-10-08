@@ -18,6 +18,7 @@ void numbers() {
 	switch(i) {
 	case 0:
 		printf("zero\n");
+		break;
 	case 1:
 		printf("un\n");
 		break;
