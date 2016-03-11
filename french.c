@@ -4,129 +4,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 // declaring functions
 void colourstest();
 void numberstest();
 void monthstest();
+void upperCase(char a[]);
+char toupper();
+
+// translations from 0-19
+char *translations[22] = {"zero", "un", "deux", "trois", "quatre", "cinq", "six", "sept",
+										"huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
+										"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"};
+// translations for 10, 20, 30...
+char *multiples[13] = {"", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
+										"quatre-vingt", "quatre-vingt-dix", "cent"};
 
 void numbers() {
 	int i;
 	printf("Please enter a number: ");
 	scanf("%d", &i);
+	char answer[15];
+	if (i >= 0 && i <= 19) {
+		strcpy(answer, translations[i]);
+		printf("%s", answer);
+	} else {
+		// get number length (number of digits)
+		int nDigits = floor(log10(abs(i))) + 1;
+		char* eachDigit[nDigits];
+		int k;
+		// put each digit into an array
+			for (int e = 0; e < nDigits; e++) {
+			k = i % 10;
+			// first digit, get string in array
+			if (e == 0) {
+				eachDigit[e] = translations[k];
+			// second digit will be a multiple
+			} else if (e == 1) {
+				eachDigit[e] = multiples[k];
+			}
+			i /= 10;
+		}
 
-	switch(i) {
-	case 0:
-		printf("zero\n");
-		break;
-	case 1:
-		printf("un\n");
-		break;
-	case 2:
-		printf("deux\n");
-		break;
-	case 3:
-		printf("trois\n");
-		break;
-	case 4:
-		printf("quatre\n");
-		break;	
-	case 5:
-		printf("cinq\n");
-		break;
-	case 6:
-		printf("six\n");
-		break;
-	case 7:
-		printf("sept\n");
-		break;	
-	case 8:
-		printf("huit\n");
-		break;
-	case 9:
-		printf("neuf\n");
-		break;
-	case 10:
-		printf("dix\n");
-		break;
-	case 11:
-		printf("onze\n");
-		break;
-	case 12:
-		printf("douze\n");	
-		break;
-	case 13:
-		printf("treize\n");
-		break;
-	case 14:
-		printf("quatorze\n");
-		break;
-	case 15:
-		printf("quinze\n");
-		break;
-	case 16:
-		printf("seize\n");
-		break;
-	case 17:
-		printf("dix-sept\n");
-		break;
-	case 18:
-		printf("dix-huit\n");
-		break;
-	case 19:
-		printf("dix-neuf\n");
-		break;
-	case 20:
-		printf("vingt\n");
-		break;		
-	case 21:
-		printf("vingt-et-un\n");
-		break;
-	case 30:
-		printf("trente\n");
-		break;
-	case 40:
-		printf("quarante\n");
-		break;
-	case 50:
-		printf("cinquante\n");
-		break;
-	case 60:
-		printf("soixante\n");
-		break;
-	case 70:
-		printf("soixante-dix\n");
-		break;
-	case 80:
-		printf("quatre-vingt\n");
-		break;
-	case 90:
-		printf("quatre-vingt-dix\n");
-		break;
-	case 100:
-		printf("cent\n");
-		break;
-	case 101:
-		printf("cent-un\n");
-		break;
-	case 1000:
-		printf("mille\n");	
-		break;														
-	}	
-
-	// able to repeat function
-	printf("Do you want to know any more numbers?\n");
-	char yesno[2];
-	scanf("%s", yesno);
-	if(strcmp(yesno, "yes")==0) {
-		numbers();
-	}
-
-	// starts test
-	printf("Would you like to take a quick test?\n");
-	scanf("%s", yesno);
-	if(strcmp(yesno, "yes")==0){
-		numberstest();
+		// print out answer i.e. 22 = 20 + 2 = vingt + deux
+		for (int f = nDigits-1; f >= 0; f--) {
+			// if zero, then don't print i.e. not trente zero but trente
+			if (strcmp(eachDigit[f], "zero")) {
+				printf("%s", eachDigit[f]);
+				printf(" ");
+			}
+		}
+		printf("\n");
 	}
 }
 
@@ -134,7 +63,7 @@ void months() {
 	char month[10];
 	printf("Please enter a month: ");
 	scanf("%s", month);
-		
+
 	if(strcmp(month, "january")==0) {
 		printf("janvier\n");
 	}
@@ -173,21 +102,6 @@ void months() {
 	}
 	else {
 		printf("That is not a valid month.");
-	}
-
-	// able to repeat function
-	printf("Do you want to know any more months?\n");
-	char yesno[2];
-	scanf("%s", yesno);
-	if(strcmp(yesno, "yes")==0) {
-		months();
-	}
-
-	// starts test
-	printf("Would you like to take a quick test?\n");
-	scanf("%s", yesno);
-	if(strcmp(yesno, "yes")==0){
-		monthstest();
 	}
 }
 
@@ -236,20 +150,6 @@ void colours() {
 		printf("That is not a valid colour.");
 	}
 
-	// able to repeat function
-	printf("Do you want to know any more colours?\n");
-	char yesno[2];
-	scanf("%s", yesno);
-	if(strcmp(yesno, "yes")==0) {
-		colours();
-	}
-
-	// starts test
-	printf("Would you like to take a quick test?\n");
-	scanf("%s", yesno);
-	if(strcmp(yesno, "yes")==0){
-		colourstest();
-	}
 }
 
 void colourstest() {
@@ -385,7 +285,7 @@ void numberstest() {
 	// q2
 	printf("What is '21' in French?\n");
 	scanf("%s", number);
-	if(strcmp(number, "vingt-et-un")==0) {
+	if(strcmp(number, "vingt un")==0) {
 		printf("That's correct!\n");
 		score++;
 	} else {
@@ -445,7 +345,7 @@ void numberstest() {
 	// q8
 	printf("What is '65' in French?\n");
 	scanf("%s", number);
-	if(strcmp(number, "soixante-cinq")==0) {
+	if(strcmp(number, "soixante cinq")==0) {
 		printf("That's correct!\n");
 		score++;
 	} else {
@@ -456,23 +356,83 @@ void numberstest() {
 	printf("The test is over. You scored %d out of 8!\n", score);
 }
 
+void upperCase(char a[]) {
+	int i;
+	for (i = 0; i < strlen(a); i++) {
+		a[i] = toupper(a[i]);
+	}
+}
 
 int main() {
 
 	char choice[10];
 
-	// switchboard 
+	// switchboard
 	printf("What would you like to know? Numbers, months or colours?\n");
 	scanf("%s", choice);
-
-	if(strcmp(choice, "numbers")==0) {
-		numbers();
+	upperCase(choice);
+	if(strcmp(choice, "NUMBERS")==0 || strcmp(choice, "N")==0) {
+		int numCarryOn = 1;
+		while (numCarryOn) {
+			numbers();
+			printf("Do you want to know any more numbers?\n");
+			char yesno[3];
+			scanf("%s", yesno);
+			upperCase(yesno);
+			if(strcmp(yesno, "YES")==0 || strcmp(yesno, "Y")==0) {
+				numCarryOn = 1;
+			} else {
+				numCarryOn = 0;
+				printf("Do you want to take a quick numbers test?\n");
+				scanf("%s", yesno);
+				upperCase(yesno);
+				if(strcmp(yesno, "YES")==0 || strcmp(yesno, "Y")==0) {
+					numberstest();
+				}
+			}
+		}
 	}
-	else if (strcmp(choice, "months")==0) {
-		months();
+	else if (strcmp(choice, "MONTHS")==0 || strcmp(choice, "M") == 0) {
+		int monCarryOn = 1;
+		while (monCarryOn) {
+			months();
+			printf("Do you want to know any more months?\n");
+			char yesno[3];
+			scanf("%s", yesno);
+			upperCase(yesno);
+			if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
+				monCarryOn = 1;
+			} else {
+				monCarryOn = 0;
+				printf("Do you want to take a quick months test?\n");
+				scanf("%s", yesno);
+				upperCase(yesno);
+				if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
+					monthstest();
+				}
+			}
+		}
 	}
-	else if (strcmp(choice, "colours")==0) {
-		colours();
+	else if (strcmp(choice, "COLOURS")==0 || strcmp(choice, "C")==0) {
+		int colCarryOn = 1;
+		while (colCarryOn) {
+			colours();
+			printf("Do you want to know any more colours?\n");
+			char yesno[3];
+			scanf("%s", yesno);
+			upperCase(yesno);
+			if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
+				colCarryOn = 1;
+			} else {
+				colCarryOn = 0;
+				printf("Do you want to take a quick colours test?\n");
+				scanf("%s", yesno);
+				upperCase(yesno);
+				if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
+					colourstest();
+				}
+			}
+		}
 	}
 	else {
 		printf("You have not chosen a category.\n");
@@ -481,4 +441,3 @@ int main() {
 	// ends program successfully
 	return 0;
 }
-
