@@ -17,33 +17,49 @@ char toupper();
 char *translations[22] = {"zero", "un", "deux", "trois", "quatre", "cinq", "six", "sept",
 										"huit", "neuf", "dix", "onze", "douze", "treize", "quatorze",
 										"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"};
-// translations for 10, 20, 30...
+// translations for 10, 20, 30... 100
 char *multiples[13] = {"", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
 										"quatre-vingt", "quatre-vingt-dix", "cent"};
+
 
 void numbers() {
 	int i;
 	printf("Please enter a number: ");
 	scanf("%d", &i);
 	char answer[15];
+	// get from array using i as index
 	if (i >= 0 && i <= 19) {
 		strcpy(answer, translations[i]);
+		strcat(answer, "\n");
 		printf("%s", answer);
 	} else {
 		// get number length (number of digits)
 		int nDigits = floor(log10(abs(i))) + 1;
 		char* eachDigit[nDigits];
-		int k;
+		int k = 0;
 		// put each digit into an array
 			for (int e = 0; e < nDigits; e++) {
 			k = i % 10;
-			// first digit, get string in array
+			// first digit will be 1, 2, 3,...
 			if (e == 0) {
 				eachDigit[e] = translations[k];
-			// second digit will be a multiple
+			// second digit will be 10, 20, 30....
 			} else if (e == 1) {
 				eachDigit[e] = multiples[k];
-			}
+			//third digit will be 100, 200, 300...
+			} else if (e == 2) {
+				// if 100, only say cent not un cent
+				if (k == 1) {
+					eachDigit[e] = multiples[10];
+				} else {
+					char hundredValue[13] = "";
+					// get value of hundred i.e. one hundred, two hundred etc
+					strcpy(hundredValue, translations[k]);
+					strcat(hundredValue, " ");
+					// add on cent
+					strcat(hundredValue, multiples[10]);
+					eachDigit[e] = hundredValue;
+				}
 			i /= 10;
 		}
 
