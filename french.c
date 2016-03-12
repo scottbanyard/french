@@ -1,4 +1,4 @@
-// scott banyard 2015
+// scott banyard summer 2015 - greatly improved in march 2016 (covers 0 - 99999 number translations)
 // very basic french program that translates numbers, months and colours with little tests - created to recap C and to recap basic french
 
 #include <stdio.h>
@@ -19,7 +19,7 @@ char *translations[22] = {"zero", "un", "deux", "trois", "quatre", "cinq", "six"
 										"quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"};
 // translations for 10, 20, 30... 100
 char *multiples[13] = {"", "dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix",
-										"quatre-vingt", "quatre-vingt-dix", "cent"};
+										"quatre-vingt", "quatre-vingt-dix", "cent", "mille"};
 
 
 void numbers() {
@@ -35,43 +35,97 @@ void numbers() {
 	} else {
 		// get number length (number of digits)
 		int nDigits = floor(log10(abs(i))) + 1;
-		char* eachDigit[nDigits];
-		int k = 0;
-		// put each digit into an array
-			for (int e = 0; e < nDigits; e++) {
-			k = i % 10;
-			// first digit will be 1, 2, 3,...
-			if (e == 0) {
-				eachDigit[e] = translations[k];
-			// second digit will be 10, 20, 30....
-			} else if (e == 1) {
-				eachDigit[e] = multiples[k];
-			//third digit will be 100, 200, 300...
-			} else if (e == 2) {
-				// if 100, only say cent not un cent
-				if (k == 1) {
-					eachDigit[e] = multiples[10];
-				} else {
-					char hundredValue[13] = "";
-					// get value of hundred i.e. one hundred, two hundred etc
-					strcpy(hundredValue, translations[k]);
-					strcat(hundredValue, " ");
-					// add on cent
-					strcat(hundredValue, multiples[10]);
-					eachDigit[e] = hundredValue;
-				}
-			i /= 10;
-		}
 
-		// print out answer i.e. 22 = 20 + 2 = vingt + deux
-		for (int f = nDigits-1; f >= 0; f--) {
-			// if zero, then don't print i.e. not trente zero but trente
-			if (strcmp(eachDigit[f], "zero")) {
-				printf("%s", eachDigit[f]);
-				printf(" ");
+		// error catching - no translations for over 100,000 at the moment
+		if (nDigits == 6) {
+			printf("The translation range is between 0 - 99999");
+		} else {
+			char* eachDigit[nDigits];
+			int k = 0;
+			int savedDigit;
+			// put each digit into an array
+				for (int e = 0; e < nDigits; e++) {
+					// get digit
+					k = i % 10;
+					// first digit will be 1, 2, 3,...
+					if (e == 0) {
+						eachDigit[e] = translations[k];
+					// second digit will be 10, 20, 30....
+					} else if (e == 1) {
+						eachDigit[e] = multiples[k];
+					//third digit will be 100, 200, 300...
+					} else if (e == 2) {
+						// if 100, only say cent not un cent
+						if (k == 1) {
+							eachDigit[e] = multiples[10];
+						} else if (k >= 2 && k <= 9) {
+							char hundredValue[13] = "";
+							// get value of hundred i.e. one hundred, two hundred etc
+							strcpy(hundredValue, translations[k]);
+							strcat(hundredValue, " ");
+							// add on cent
+							strcat(hundredValue, multiples[10]);
+							eachDigit[e] = hundredValue;
+						} else {
+							// else will be zero - don't need to print that
+							eachDigit[e] = "";
+						}
+					} else if (e == 3) {
+						if (nDigits != 5) {
+							if (k == 1) {
+								eachDigit[e] = multiples[11];
+							} else if (k >= 2 && k <= 9){
+								char thousandValue[13] = "";
+								// get value of hundred i.e. one hundred, two hundred etc
+								strcpy(thousandValue, translations[k]);
+								strcat(thousandValue, " ");
+								// add on mille
+								strcat(thousandValue, multiples[11]);
+								eachDigit[e] = thousandValue;
+							} else {
+								// will be zero - don't need to print
+								eachDigit[e] = "";
+							}
+						} else {
+							savedDigit = k;
+							// put mille into eachDigit
+							eachDigit[e] = multiples[11];
+						}
+					} else if (e == 4) {
+						// if in 10 thousands, use translations from 10 - 19
+						if (k == 1) {
+							// multiply current digit by 10 and add on previous digit i.e. 12000 = 1 | 2 as digits, 1*10 = 10 + 2 = 12
+							int value = (k * 10) + savedDigit;
+							eachDigit[e] = translations[value];
+						} else {
+							char thousandValue[25] = "";
+							// get value of hundred i.e. one hundred, two hundred etc
+							strcpy(thousandValue, multiples[k]);
+							// if theres a second digit (not zero) then add that on
+							if (savedDigit >= 2 && savedDigit <= 9) {
+								strcat(thousandValue, " ");
+								// add on second digit
+								strcat(thousandValue, translations[savedDigit]);
+							}
+							eachDigit[e] = thousandValue;
+						}
+					}
+					// go to next digit
+					i /= 10;
 			}
+
+			// print out answer i.e. 22 = 20 + 2 = vingt + deux
+			for (int f = nDigits-1; f >= 0; f--) {
+				// if zero, then don't print i.e. not trente zero but trente (strcmp returns 0 if true) (same for "")
+				if (strcmp(eachDigit[f], "zero")) {
+					if (strcmp(eachDigit[f], "")) {
+						printf("%s", eachDigit[f]);
+						printf(" ");
+					}
+				}
+			}
+			printf("\n");
 		}
-		printf("\n");
 	}
 }
 
@@ -391,7 +445,7 @@ int main() {
 		int numCarryOn = 1;
 		while (numCarryOn) {
 			numbers();
-			printf("Do you want to know any more numbers?\n");
+			printf("Do you want to know any more numbers? Y/N\n");
 			char yesno[3];
 			scanf("%s", yesno);
 			upperCase(yesno);
@@ -399,7 +453,7 @@ int main() {
 				numCarryOn = 1;
 			} else {
 				numCarryOn = 0;
-				printf("Do you want to take a quick numbers test?\n");
+				printf("Do you want to take a quick numbers test? Y/N\n");
 				scanf("%s", yesno);
 				upperCase(yesno);
 				if(strcmp(yesno, "YES")==0 || strcmp(yesno, "Y")==0) {
@@ -412,7 +466,7 @@ int main() {
 		int monCarryOn = 1;
 		while (monCarryOn) {
 			months();
-			printf("Do you want to know any more months?\n");
+			printf("Do you want to know any more months? Y/N\n");
 			char yesno[3];
 			scanf("%s", yesno);
 			upperCase(yesno);
@@ -420,7 +474,7 @@ int main() {
 				monCarryOn = 1;
 			} else {
 				monCarryOn = 0;
-				printf("Do you want to take a quick months test?\n");
+				printf("Do you want to take a quick months test? Y/N\n");
 				scanf("%s", yesno);
 				upperCase(yesno);
 				if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
@@ -433,7 +487,7 @@ int main() {
 		int colCarryOn = 1;
 		while (colCarryOn) {
 			colours();
-			printf("Do you want to know any more colours?\n");
+			printf("Do you want to know any more colours? Y/N\n");
 			char yesno[3];
 			scanf("%s", yesno);
 			upperCase(yesno);
@@ -441,7 +495,7 @@ int main() {
 				colCarryOn = 1;
 			} else {
 				colCarryOn = 0;
-				printf("Do you want to take a quick colours test?\n");
+				printf("Do you want to take a quick colours test? Y/N\n");
 				scanf("%s", yesno);
 				upperCase(yesno);
 				if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
