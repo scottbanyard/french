@@ -12,6 +12,10 @@ This program currently:
 
 `- translates colours`
 
+`- quick test after translations with score system`
+
+Following this I have created a Java GUI to test users with an easier interface. This can be found at https://github.com/scottbanyard/french-gui-test-java if interested.
+
 ### frenchVerbs.c
 
 This program currently:
