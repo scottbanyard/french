@@ -37,8 +37,8 @@ void numbers() {
 		int nDigits = floor(log10(abs(i))) + 1;
 
 		// error catching - no translations for over 100,000 at the moment
-		if (nDigits == 6) {
-			printf("The translation range is between 0 - 99999");
+		if (nDigits >= 6) {
+			printf("Please enter a number between 0 - 99999.\n");
 		} else {
 			char* eachDigit[nDigits];
 			int k = 0;
