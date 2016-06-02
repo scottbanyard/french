@@ -155,213 +155,219 @@ void numbers(int i, char* buff) {
 
 
 
-void months() {
-	char month[10];
-	printf("Please enter a month: ");
-	scanf("%s", month);
-
+void months(char* month, char* buff) {
 	if(strcmp(month, "january")==0) {
-		printf("janvier\n");
+		strcpy(buff, "janvier");
 	}
 	else if(strcmp(month, "february")==0) {
-		printf("fevrier\n");
+		strcpy(buff, "fevrier");
 	}
 	else if(strcmp(month, "march")==0) {
-		printf("mars\n");
+		strcpy(buff, "mars");
 	}
 	else if(strcmp(month, "april")==0) {
-		printf("avril\n");
+		strcpy(buff, "avril");
 	}
 	else if(strcmp(month, "may")==0) {
-		printf("mai\n");
+		strcpy(buff, "mai");
 	}
 	else if(strcmp(month, "june")==0) {
-		printf("juin\n");
+		strcpy(buff, "juin");
 	}
 	else if(strcmp(month, "july")==0) {
-		printf("juillet\n");
+		strcpy(buff, "juillet");
 	}
 	else if(strcmp(month, "august")==0) {
-		printf("aout\n");
+		strcpy(buff, "aout");
 	}
 	else if(strcmp(month, "september")==0) {
-		printf("septembre\n");
+		strcpy(buff, "septembre");
 	}
 	else if(strcmp(month, "october")==0) {
-		printf("octobre\n");
+		strcpy(buff, "octobre");
 	}
 	else if(strcmp(month, "november")==0) {
-		printf("novembre\n");
+		strcpy(buff, "novembre");
 	}
 	else if(strcmp(month, "december")==0) {
-		printf("decembre\n");
+		strcpy(buff, "decembre");
+
 	}
 	else {
 		printf("That is not a valid month.");
 	}
 }
 
-void colours() {
-	char colour[10];
-	printf("Please enter a colour: ");
-	scanf("%s", colour);
-
+void colours(char* colour, char* buff) {
 	if(strcmp(colour, "red")==0) {
-		printf("rouge\n");
+		strcpy(buff, "rouge");
 	}
 	else if(strcmp(colour, "blue")==0) {
-		printf("bleu\n");
+		strcpy(buff, "bleu");
 	}
 	else if(strcmp(colour, "green")==0) {
-		printf("vert\n");
+		strcpy(buff, "vert");
 	}
 	else if(strcmp(colour, "yellow")==0) {
-		printf("jaune\n");
+		strcpy(buff, "jaune");
 	}
 	else if(strcmp(colour, "white")==0) {
-		printf("blanc\n");
+		strcpy(buff, "blanc");
 	}
 	else if(strcmp(colour, "black")==0) {
-		printf("noir\n");
+		strcpy(buff, "noir");
 	}
 	else if(strcmp(colour, "grey")==0) {
-		printf("gris\n");
+		strcpy(buff, "gris");
 	}
 	else if(strcmp(colour, "orange")==0) {
-		printf("orange\n");
+		strcpy(buff, "orange");
 	}
 	else if(strcmp(colour, "brown")==0) {
-		printf("brun or marron\n");
+		strcpy(buff, "marron");
 	}
 	else if(strcmp(colour, "pink")==0) {
-		printf("rose\n");
+		strcpy(buff, "rose");
 	}
 	else if(strcmp(colour, "blonde")==0) {
-		printf("blond\n");
+		strcpy(buff, "blond");
 	}
 	else if(strcmp(colour, "purple")==0) {
-		printf("violet\n");
+		strcpy(buff, "violet");
 	}
 	else {
-		printf("That is not a valid colour.");
+		printf("We do not have any translation for that colour, sorry.");
 	}
 
 }
 
 void colourstest() {
 	int score = 0;
-	char colour[10];
+	int numQuestions = 0;
+	// array so can use random number to choose index and therefore a random question
+	char englishColours[12][10] = {"red", "blue", "green", "yellow", "white", "black", "grey", "orange", "brown", "pink", "blonde", "purple"};
 
-	// q1
-	printf("What is 'blue' in French?\n");
-	scanf("%s", colour);
-	if (strcmp(colour, "bleu")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'bleu'.\n");
+	printf("How many questions would you like?\n");
+	scanf("%d", &numQuestions);
+	printf("\n");
+
+	if (numQuestions < 0) {
+		printf("\nYou can't choose less than 0 questions.\n");
+		return;
 	}
 
-	// q2
-	printf("What is 'green' in French?\n");
-	scanf("%s", colour);
-	if (strcmp(colour, "vert")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'vert'.\n");
+	/* skip first fgets - newline in stdin from scanfs but fflush(stdin) not working
+	, so first fgets always skips in for loop - would replace all scanfs with fgets
+	but too lazy atm so just skip this fgets outside loop*/
+	char *colour = malloc (15);
+	fgets(colour, 15, stdin);
+	free(colour);
+
+	// set random to always randomized even when currently processing - without this
+	// random will always be the same numbers whenever program is re-run
+	srand(time(NULL));
+
+	// ask questions
+	for (int i = 0; i < numQuestions; i++) {
+		char buffer[15] = "";
+
+		// generate random number to test
+		int randColour = rand() % 11;
+		printf("\nWhat is ");
+		printf("%s", englishColours[randColour]);
+		printf(" in French?\n");
+
+		char *colour = malloc (15);
+		// get the month, with size limit.
+		fgets(colour, 15, stdin);
+
+		// Remove trailing newline, if there. //
+		if ((strlen(colour)>0) && (colour[strlen (colour) - 1] == '\n'))
+		colour[strlen (colour) - 1] = '\0';
+
+		// use english month to find translation into french and put in buffer
+		colours(englishColours[randColour], buffer);
+
+		// check correct answer and input answer
+		if (strcmp(colour, buffer)==0) {
+			printf("That's correct!\n");
+			score++;
+		} else {
+			printf("That's incorrect! The correct answer is: ");
+			printf("%s", buffer);
+			printf("\n");
+		}
+
+		// reset buffer by clearing it
+		memset(&buffer[0], 0, sizeof(buffer));
 	}
 
-	// q3
-	printf("What is 'black' in French?\n");
-	scanf("%s", colour);
-	if (strcmp(colour, "noir")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'noir'.\n");
-	}
-
-	// q4
-	printf("What is 'purple' in French?\n");
-	scanf("%s", colour);
-	if (strcmp(colour, "violet")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'violet'.\n");
-	}
-
-	// q5
-	printf("What is 'white' in French?\n");
-	scanf("%s", colour);
-	if (strcmp(colour, "blanc")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'blanc'.\n");
-	}
-
-	// result
-	printf("The test is over. You scored %d out of 5!\n", score);
+	printf("The test is over. You scored %d out of %d!\n", score, numQuestions);
 }
 
 void monthstest() {
 	int score = 0;
-	char month[10];
+	int numQuestions = 0;
+	// array so can use random number to choose index and therefore a random question
+	char englishMonths[12][15] = {"january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"};
 
-	// q1
-	printf("What is 'february' in French?\n");
-	scanf("%s", month);
-	if (strcmp(month, "fevrier")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'fevrier'.\n");
+	printf("How many questions would you like?\n");
+	scanf("%d", &numQuestions);
+	printf("\n");
+
+	if (numQuestions < 0) {
+		printf("\nYou can't choose less than 0 questions.\n");
+		return;
 	}
 
-	// q2
-	printf("What is 'march' in French?\n");
-	scanf("%s", month);
-	if (strcmp(month, "mars")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'mars'.\n");
+	/* skip first fgets - newline in stdin from scanfs but fflush(stdin) not working
+	, so first fgets always skips in for loop - would replace all scanfs with fgets
+	but too lazy atm so just skip this fgets outside loop*/
+	char *month = malloc (15);
+	fgets(month, 15, stdin);
+	free(month);
+
+	// set random to always randomized even when currently processing - without this
+	// random will always be the same numbers whenever program is re-run
+	srand(time(NULL));
+
+	// ask questions
+	for (int i = 0; i < numQuestions; i++) {
+		char buffer[15] = "";
+
+		// generate random number to test
+		int randMonth = rand() % 11;
+		printf("\nWhat is ");
+		printf("%s", englishMonths[randMonth]);
+		printf(" in French?\n");
+
+		char *month = malloc (15);
+		// get the month, with size limit.
+		fgets(month, 15, stdin);
+
+		// Remove trailing newline, if there. //
+		if ((strlen(month)>0) && (month[strlen (month) - 1] == '\n'))
+		month[strlen (month) - 1] = '\0';
+
+		// use english month to find translation into french and put in buffer
+		months(englishMonths[randMonth], buffer);
+
+		// check correct answer and input answer
+		if (strcmp(month, buffer)==0) {
+			printf("That's correct!\n");
+			score++;
+		} else {
+			printf("That's incorrect! The correct answer is: ");
+			printf("%s", buffer);
+			printf("\n");
+		}
+
+		// reset buffer by clearing it
+		memset(&buffer[0], 0, sizeof(buffer));
 	}
 
-	// q3
-	printf("What is 'november' in French?\n");
-	scanf("%s", month);
-	if (strcmp(month, "novembre")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'novembre'.\n");
-	}
+	printf("The test is over. You scored %d out of %d!\n", score, numQuestions);
 
-	// q4
-	printf("What is 'august' in French?\n");
-	scanf("%s", month);
-	if (strcmp(month, "aout")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'aout'.\n");
-	}
-
-	// q5
-	printf("What is 'may' in French?\n");
-	scanf("%s", month);
-	if (strcmp(month, "mai")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'mai'.\n");
-	}
-
-	// result
-	printf("The test is over. You scored %d out of 5!\n", score);
 }
 
 void numberstest() {
@@ -471,7 +477,13 @@ int main() {
 	else if (strcmp(choice, "MONTHS")==0 || strcmp(choice, "M") == 0) {
 		int monCarryOn = 1;
 		while (monCarryOn) {
-			months();
+			char buffer[15];
+			char month[10];
+			printf("Please enter a month: ");
+			scanf("%s", month);
+			months(month, buffer);
+			printf("%s\n", buffer);
+			memset(&buffer[0], 0, sizeof(buffer));
 			printf("Do you want to know any more months? Y/N\n");
 			char yesno[3];
 			scanf("%s", yesno);
@@ -492,7 +504,13 @@ int main() {
 	else if (strcmp(choice, "COLOURS")==0 || strcmp(choice, "C")==0) {
 		int colCarryOn = 1;
 		while (colCarryOn) {
-			colours();
+			char buffer[15];
+			char colour[10];
+			printf("Please enter a colour: ");
+			scanf("%s", colour);
+			colours(colour, buffer);
+			printf("%s\n", buffer);
+			memset(&buffer[0], 0, sizeof(buffer));
 			printf("Do you want to know any more colours? Y/N\n");
 			char yesno[3];
 			scanf("%s", yesno);
