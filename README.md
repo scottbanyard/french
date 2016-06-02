@@ -14,7 +14,9 @@ This program currently:
 
 `- quick tests after translations with score system`
 
-`- recently updated numbers test : now you can choose how many questions you want, and it will ask you *random* numbers each time to be tested on`
+`- updated numbers test : now you can choose how many questions you want, and it will ask you *random* numbers each time to be tested on`
+
+`- also updated months and colours tests : can choose how many questions you want, and it will *randomly* ask you different months and colours respectively to be tested on`
 
 Following this I have created a Java GUI to test users with an easier interface. This can be found at https://github.com/scottbanyard/french-gui-test-java if interested.
 
