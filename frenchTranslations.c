@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
 // declaring functions
 void colourstest();
@@ -12,6 +13,10 @@ void numberstest();
 void monthstest();
 void upperCase(char a[]);
 char toupper();
+int isspace(); // used to check if space in array
+
+// max number for questions in number test
+int const MAX_NUMBER_FOR_TESTS = 200;
 
 // translations from 0-19
 char *translations[22] = {"zero", "un", "deux", "trois", "quatre", "cinq", "six", "sept",
@@ -22,16 +27,27 @@ char *multiples[13] = {"", "dix", "vingt", "trente", "quarante", "cinquante", "s
 										"quatre-vingt", "quatre-vingt-dix", "cent", "mille"};
 
 
-void numbers() {
-	int i;
-	printf("Please enter a number: ");
-	scanf("%d", &i);
-	char answer[15];
+// removes whitespace at end of string
+void trim(char * s) {
+    char * p = s;
+    int l = strlen(p);
+
+    while(isspace(p[l - 1])) p[--l] = 0;
+    while(* p && isspace(* p)) ++p, --l;
+
+    memmove(s, p, l + 1);
+}
+
+// returns number translation in a buffer array
+void numbers(int i, char* buff) {
+	// // keep answer inside this array to return
+	char finalAnswer[50];
+	// // clears finalAnswer array incase want to know another number
+	// memset(&finalAnswer[0], 0, sizeof(finalAnswer));
 	// get from array using i as index
 	if (i >= 0 && i <= 19) {
-		strcpy(answer, translations[i]);
-		strcat(answer, "\n");
-		printf("%s", answer);
+		strcpy(buff, translations[i]);
+		// printf("%s", answer);
 	} else {
 		// get number length (number of digits)
 		int nDigits = floor(log10(abs(i))) + 1;
@@ -40,6 +56,8 @@ void numbers() {
 		if (nDigits >= 6) {
 			printf("Please enter a number between 0 - 99999.\n");
 		} else {
+
+			// track each digit
 			char* eachDigit[nDigits];
 			int k = 0;
 			int savedDigit;
@@ -114,20 +132,28 @@ void numbers() {
 					i /= 10;
 			}
 
-			// print out answer i.e. 22 = 20 + 2 = vingt + deux
+			int index = 0;
+			// build together a string with spaces where necessary - may create unnecessary whitespace at end
 			for (int f = nDigits-1; f >= 0; f--) {
 				// if zero, then don't print i.e. not trente zero but trente (strcmp returns 0 if true) (same for "")
 				if (strcmp(eachDigit[f], "zero")) {
 					if (strcmp(eachDigit[f], "")) {
-						printf("%s", eachDigit[f]);
-						printf(" ");
+						strcat(finalAnswer, eachDigit[f]);
+						strcat(finalAnswer, " ");
 					}
 				}
 			}
-			printf("\n");
+
+			// remove uneccessary whitespace at end of string
+			trim(finalAnswer);
+			finalAnswer[strlen(finalAnswer)] = '\0';
+			// copy final string into buffer to return to caller
+			strcpy(buff, finalAnswer);
 		}
 	}
 }
+
+
 
 void months() {
 	char month[10];
@@ -340,92 +366,66 @@ void monthstest() {
 
 void numberstest() {
 	int score = 0;
-	char number[15];
+	int numQuestions = 0;
 
-	// q1
-	printf("What is '15' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "quinze")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'quinze'.\n");
+	printf("How many questions would you like?\n");
+	scanf("%d", &numQuestions);
+	printf("\n");
+
+	if (numQuestions < 0) {
+		printf("\nYou can't choose less than 0 questions.\n");
+		return;
 	}
 
-	// q2
-	printf("What is '21' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "vingt un")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'vingt-et-un'.\n");
+	// set random to always randomized even when currently processing - without this
+	// random will always be the same numbers whenever program is re-run
+	srand(time(NULL));
+
+	/* skip first fgets - newline in stdin from scanfs but fflush(stdin) not working
+	, so first fgets always skips in for loop - would replace all scanfs with fgets
+	but too lazy atm so just skip this fgets outside loop*/
+	char *number = malloc (100);
+	fgets(number, 100, stdin);
+	free(number);
+
+	// ask questions
+	for (int i = 0; i < numQuestions; i++) {
+		char buffer[50] = "";
+
+		// generate random number to test
+		int testNum = rand() % MAX_NUMBER_FOR_TESTS;
+		printf("\nWhat is ");
+		printf("%d", testNum);
+		printf(" in French?\n");
+
+		char *number = malloc (100);
+		// get the number, with size limit.
+	  fgets(number, 100, stdin);
+
+		// Remove trailing newline, if there. //
+ 		if ((strlen(number)>0) && (number[strlen (number) - 1] == '\n'))
+		number[strlen (number) - 1] = '\0';
+
+		// get correct answer by putting into buffer
+		numbers(testNum, buffer);
+		// check correct answer and input answer
+		if (strcmp(number, buffer)==0) {
+			printf("That's correct!\n");
+			score++;
+		} else {
+			printf("That's incorrect! The correct answer is: ");
+			printf("%s", buffer);
+			printf("\n");
+		}
+
+		// reset buffer by clearing it
+		memset(&buffer[0], 0, sizeof(buffer));
 	}
 
-	// q3
-	printf("What is '30' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "trente")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'trente'.\n");
-	}
-
-	// q4
-	printf("What is '100' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "cent")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'cent'.\n");
-	}
-
-	// q5
-	printf("What is '80' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "quatre-vingt")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'quatre-vingt'.\n");
-	}
-
-	// q6
-	printf("What is '90' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "quatre-vingt-dix")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'quatre-vingt-dix'.\n");
-	}
-
-	// q7
-	printf("What is '50' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "cinquante")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'cinquante'.\n");
-	}
-
-	// q8
-	printf("What is '65' in French?\n");
-	scanf("%s", number);
-	if(strcmp(number, "soixante cinq")==0) {
-		printf("That's correct!\n");
-		score++;
-	} else {
-		printf("That's incorrect, the correct answer is 'soixante-cinq'.\n");
-	}
-
-	// result
-	printf("The test is over. You scored %d out of 8!\n", score);
+	printf("The test is over. You scored %d out of %d!\n", score, numQuestions);
 }
 
+// turns all chars in array to uppercase
 void upperCase(char a[]) {
 	int i;
 	for (i = 0; i < strlen(a); i++) {
@@ -443,8 +443,14 @@ int main() {
 	upperCase(choice);
 	if(strcmp(choice, "NUMBERS")==0 || strcmp(choice, "N")==0) {
 		int numCarryOn = 1;
+		int i;
 		while (numCarryOn) {
-			numbers();
+			printf("Please enter a number: ");
+			scanf("%d", &i);
+			char buffer[50];
+			numbers(i, buffer);
+			printf("%s\n", buffer);
+			memset(&buffer[0], 0, sizeof(buffer));
 			printf("Do you want to know any more numbers? Y/N\n");
 			char yesno[3];
 			scanf("%s", yesno);

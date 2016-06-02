@@ -1,4 +1,4 @@
-// french verb program - practising verb endings, especially common irregular verbs
+// french verb program - practising verb endings, especially common irregular verbs (for present tense)
 // scott banyard 08/10/15
 
 #include <stdio.h>
