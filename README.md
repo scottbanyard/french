@@ -12,7 +12,9 @@ This program currently:
 
 `- translates colours`
 
-`- quick test after translations with score system`
+`- quick tests after translations with score system`
+
+`- recently updated numbers test : now you can choose how many questions you want, and it will ask you *random* numbers each time to be tested on`
 
 Following this I have created a Java GUI to test users with an easier interface. This can be found at https://github.com/scottbanyard/french-gui-test-java if interested.
 
