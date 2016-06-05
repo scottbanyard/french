@@ -14,7 +14,7 @@ This program currently:
 
 `- quick tests after translations with score system`
 
-`- updated numbers, months and colours tests : can choose how many questions you want, and it will ask you *random* question each time to be tested on with no duplicated questions`
+`- updated numbers, months and colours tests : can choose how many questions you want, and it will ask you random, non-duplicated questions each time to be tested on`
 
 `- updated switchboard : it will now be re-called after doing a certain category and the program can be quit via the switchboard`
 
