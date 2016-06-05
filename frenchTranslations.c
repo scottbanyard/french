@@ -1,5 +1,11 @@
-// scott banyard summer 2015 - greatly improved in march 2016 (covers 0 - 99999 number translations)
-// very basic french program that translates numbers, months and colours with little tests - created to recap C and to recap basic french
+/* Scott Banyard Summer 2015
+	 French Translation program
+	 - basic french program that translates numbers, colours and months
+	 - created to recap C and to recap basic french
+   - greatly improved in March 2016 / (covers 0 - 99999 number translations) using indexes, used to be a hard coded amount of numbers
+   - improved in June 2016, switchboard can be re-called, tests ask random questions with no duplicates, choose how many questions you want
+*/
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,9 +14,9 @@
 #include <time.h>
 
 // declaring functions
-void colourstest();
-void numberstest();
-void monthstest();
+void coloursTest();
+void numbersTest();
+void monthsTest();
 void upperCase(char a[]);
 char toupper();
 int isspace(); // used to check if space in array
@@ -153,8 +159,7 @@ void numbers(int i, char* buff) {
 	}
 }
 
-
-
+// returns month translation in a buffer array
 void months(char* month, char* buff) {
 	if(strcmp(month, "january")==0) {
 		strcpy(buff, "janvier");
@@ -198,6 +203,7 @@ void months(char* month, char* buff) {
 	}
 }
 
+// returns colours translation is a buffer array
 void colours(char* colour, char* buff) {
 	if(strcmp(colour, "red")==0) {
 		strcpy(buff, "rouge");
@@ -241,7 +247,24 @@ void colours(char* colour, char* buff) {
 
 }
 
-void colourstest() {
+// checks if question has already been asked
+int questionAlreadyAsked(int val, int *arr, int size){
+  for (int i = 0; i < size; i++) {
+    if (arr[i] == val) {
+      return 1;
+		}
+  }
+  return 0;
+}
+
+// initialises array to -1's so can can use 0 index question
+void initialiseArray(int *arr, int size) {
+	for (int i = 0; i < size; i++) {
+		arr[i] = -1;
+	}
+}
+
+void coloursTest() {
 	int score = 0;
 	int numQuestions = 0;
 	// array so can use random number to choose index and therefore a random question
@@ -254,6 +277,9 @@ void colourstest() {
 	if (numQuestions < 0) {
 		printf("\nYou can't choose less than 0 questions.\n");
 		return;
+	} else if(numQuestions > 12) {
+		printf("\nThere are only 12 colours to test you on. Please pick a number below this.\n");
+		return;
 	}
 
 	/* skip first fgets - newline in stdin from scanfs but fflush(stdin) not working
@@ -263,6 +289,12 @@ void colourstest() {
 	fgets(colour, 15, stdin);
 	free(colour);
 
+	// array to hold questions already asked to avoid duplicate questions
+	int questionsAsked[numQuestions];
+
+	// so able to use 0 index question - array is currently initialised with 0's
+	initialiseArray(questionsAsked, numQuestions);
+
 	// set random to always randomized even when currently processing - without this
 	// random will always be the same numbers whenever program is re-run
 	srand(time(NULL));
@@ -271,8 +303,13 @@ void colourstest() {
 	for (int i = 0; i < numQuestions; i++) {
 		char buffer[15] = "";
 
-		// generate random number to test
-		int randColour = rand() % 11;
+		// generate random number to test - make sure questions already hasn't been asked
+		int randColour = rand() % 12;
+		while (questionAlreadyAsked(randColour, questionsAsked, numQuestions)) {
+			randColour = rand() % 12;
+		}
+		// add question to already asked array
+		questionsAsked[i] = randColour;
 		printf("\nWhat is ");
 		printf("%s", englishColours[randColour]);
 		printf(" in French?\n");
@@ -305,7 +342,7 @@ void colourstest() {
 	printf("The test is over. You scored %d out of %d!\n", score, numQuestions);
 }
 
-void monthstest() {
+void monthsTest() {
 	int score = 0;
 	int numQuestions = 0;
 	// array so can use random number to choose index and therefore a random question
@@ -318,6 +355,9 @@ void monthstest() {
 	if (numQuestions < 0) {
 		printf("\nYou can't choose less than 0 questions.\n");
 		return;
+	} else if(numQuestions > 12) {
+		printf("\nThere are only 12 months to test you on. Please pick a number below this.\n");
+		return;
 	}
 
 	/* skip first fgets - newline in stdin from scanfs but fflush(stdin) not working
@@ -327,6 +367,12 @@ void monthstest() {
 	fgets(month, 15, stdin);
 	free(month);
 
+	// array to hold questions already asked to avoid duplicate questions
+	int questionsAsked[numQuestions];
+
+	// so able to use 0 index question - array is currently initialised with 0's
+	initialiseArray(questionsAsked, numQuestions);
+
 	// set random to always randomized even when currently processing - without this
 	// random will always be the same numbers whenever program is re-run
 	srand(time(NULL));
@@ -335,8 +381,13 @@ void monthstest() {
 	for (int i = 0; i < numQuestions; i++) {
 		char buffer[15] = "";
 
-		// generate random number to test
-		int randMonth = rand() % 11;
+		// generate random month to test
+		int randMonth = rand() % 12;
+		while (questionAlreadyAsked(randMonth, questionsAsked, numQuestions)) {
+			randMonth = rand() % 12;
+		}
+		// add question to already asked array
+		questionsAsked[i] = randMonth;
 		printf("\nWhat is ");
 		printf("%s", englishMonths[randMonth]);
 		printf(" in French?\n");
@@ -370,7 +421,7 @@ void monthstest() {
 
 }
 
-void numberstest() {
+void numbersTest() {
 	int score = 0;
 	int numQuestions = 0;
 
@@ -394,14 +445,25 @@ void numberstest() {
 	fgets(number, 100, stdin);
 	free(number);
 
+	// array to hold questions already asked to avoid duplicate questions
+	int questionsAsked[numQuestions];
+
+	// so able to use 0 index question - array is currently initialised with 0's
+	initialiseArray(questionsAsked, numQuestions);
+
 	// ask questions
 	for (int i = 0; i < numQuestions; i++) {
 		char buffer[50] = "";
 
 		// generate random number to test
-		int testNum = rand() % MAX_NUMBER_FOR_TESTS;
+		int randNum = rand() % MAX_NUMBER_FOR_TESTS;
+		while (questionAlreadyAsked(randNum, questionsAsked, numQuestions)) {
+			randNum = rand() % MAX_NUMBER_FOR_TESTS;
+		}
+		// add question to already asked array
+		questionsAsked[i] = randNum;
 		printf("\nWhat is ");
-		printf("%d", testNum);
+		printf("%d", randNum);
 		printf(" in French?\n");
 
 		char *number = malloc (100);
@@ -413,7 +475,7 @@ void numberstest() {
 		number[strlen (number) - 1] = '\0';
 
 		// get correct answer by putting into buffer
-		numbers(testNum, buffer);
+		numbers(randNum, buffer);
 		// check correct answer and input answer
 		if (strcmp(number, buffer)==0) {
 			printf("That's correct!\n");
@@ -439,98 +501,147 @@ void upperCase(char a[]) {
 	}
 }
 
-int main() {
+// prints number translation
+void printNum() {
+		int i;
+		printf("Please enter a number: ");
+		scanf("%d", &i);
+		char buffer[50];
+		numbers(i, buffer);
+		printf("%s\n", buffer);
+		memset(&buffer[0], 0, sizeof(buffer));
+}
 
+// prints month translation
+void printMonth() {
+	char buffer[15];
+	char month[10];
+	printf("Please enter a month: ");
+	scanf("%s", month);
+	months(month, buffer);
+	printf("%s\n", buffer);
+	memset(&buffer[0], 0, sizeof(buffer));
+}
+
+// prints colour translation
+void printColour() {
+	char buffer[15];
+	char colour[10];
+	printf("Please enter a colour: ");
+	scanf("%s", colour);
+	colours(colour, buffer);
+	printf("%s\n", buffer);
+	memset(&buffer[0], 0, sizeof(buffer));
+}
+
+// switchboard for choosing what translation to do and what test
+void switchboard() {
 	char choice[10];
+	char yesno[3];
+	int switchboardStillOpen = 1;
 
 	// switchboard
-	printf("What would you like to know? Numbers, months or colours?\n");
-	scanf("%s", choice);
-	upperCase(choice);
-	if(strcmp(choice, "NUMBERS")==0 || strcmp(choice, "N")==0) {
-		int numCarryOn = 1;
-		int i;
-		while (numCarryOn) {
-			printf("Please enter a number: ");
-			scanf("%d", &i);
-			char buffer[50];
-			numbers(i, buffer);
-			printf("%s\n", buffer);
-			memset(&buffer[0], 0, sizeof(buffer));
-			printf("Do you want to know any more numbers? Y/N\n");
-			char yesno[3];
-			scanf("%s", yesno);
-			upperCase(yesno);
-			if(strcmp(yesno, "YES")==0 || strcmp(yesno, "Y")==0) {
-				numCarryOn = 1;
-			} else {
-				numCarryOn = 0;
-				printf("Do you want to take a quick numbers test? Y/N\n");
+	while(switchboardStillOpen) {
+		printf("What would you like to know?\n- Numbers [numbers / n]\n- Months [months / m]\n- Colours [colours / n]\n- Quit [quit / q]\n");
+		scanf("%s", choice);
+		upperCase(choice);
+		if(strcmp(choice, "NUMBERS")==0 || strcmp(choice, "N")==0) {
+			int numCarryOn = 1;
+			int i;
+			while (numCarryOn) {
+				printNum();
+				printf("Do you want to know any more numbers? Y/N\n");
 				scanf("%s", yesno);
 				upperCase(yesno);
 				if(strcmp(yesno, "YES")==0 || strcmp(yesno, "Y")==0) {
-					numberstest();
+					numCarryOn = 1;
+				} else {
+					numCarryOn = 0;
+					printf("Do you want to take a quick numbers test? Y/N\n");
+					scanf("%s", yesno);
+					upperCase(yesno);
+					if(strcmp(yesno, "YES")==0 || strcmp(yesno, "Y")==0) {
+						numbersTest();
+					}
+					printf("\nWould you like to go back to the switchboard?\n");
+					scanf("%s", yesno);
+					upperCase(yesno);
+					if (strcmp(yesno, "NO")==0 || strcmp(yesno, "N")==0) {
+						printf("\nThanks for using the French translation program.\n");
+						switchboardStillOpen = 0;
+					}
 				}
 			}
 		}
-	}
-	else if (strcmp(choice, "MONTHS")==0 || strcmp(choice, "M") == 0) {
-		int monCarryOn = 1;
-		while (monCarryOn) {
-			char buffer[15];
-			char month[10];
-			printf("Please enter a month: ");
-			scanf("%s", month);
-			months(month, buffer);
-			printf("%s\n", buffer);
-			memset(&buffer[0], 0, sizeof(buffer));
-			printf("Do you want to know any more months? Y/N\n");
-			char yesno[3];
-			scanf("%s", yesno);
-			upperCase(yesno);
-			if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
-				monCarryOn = 1;
-			} else {
-				monCarryOn = 0;
-				printf("Do you want to take a quick months test? Y/N\n");
+		else if (strcmp(choice, "MONTHS")==0 || strcmp(choice, "M") == 0) {
+			int monCarryOn = 1;
+			while (monCarryOn) {
+				printMonth();
+				printf("Do you want to know any more months? Y/N\n");
 				scanf("%s", yesno);
 				upperCase(yesno);
 				if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
-					monthstest();
+					monCarryOn = 1;
+				} else {
+					monCarryOn = 0;
+					printf("Do you want to take a quick months test? Y/N\n");
+					scanf("%s", yesno);
+					upperCase(yesno);
+					if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
+						monthsTest();
+					}
+					printf("\nWould you like to go back to the switchboard?\n");
+					scanf("%s", yesno);
+					upperCase(yesno);
+					if (strcmp(yesno, "NO")==0 || strcmp(yesno, "N")==0) {
+						printf("\nThanks for using the French translation program.\n");
+						switchboardStillOpen = 0;
+					}
 				}
 			}
 		}
-	}
-	else if (strcmp(choice, "COLOURS")==0 || strcmp(choice, "C")==0) {
-		int colCarryOn = 1;
-		while (colCarryOn) {
-			char buffer[15];
-			char colour[10];
-			printf("Please enter a colour: ");
-			scanf("%s", colour);
-			colours(colour, buffer);
-			printf("%s\n", buffer);
-			memset(&buffer[0], 0, sizeof(buffer));
-			printf("Do you want to know any more colours? Y/N\n");
-			char yesno[3];
-			scanf("%s", yesno);
-			upperCase(yesno);
-			if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
-				colCarryOn = 1;
-			} else {
-				colCarryOn = 0;
-				printf("Do you want to take a quick colours test? Y/N\n");
+		else if (strcmp(choice, "COLOURS")==0 || strcmp(choice, "C")==0) {
+			int colCarryOn = 1;
+			while (colCarryOn) {
+				printColour();
+				printf("Do you want to know any more colours? Y/N\n");
+				char yesno[3];
 				scanf("%s", yesno);
 				upperCase(yesno);
 				if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
-					colourstest();
+					colCarryOn = 1;
+				} else {
+					colCarryOn = 0;
+					printf("Do you want to take a quick colours test? Y/N\n");
+					scanf("%s", yesno);
+					upperCase(yesno);
+					if (strcmp(yesno, "YES")== 0 || strcmp(yesno, "Y")==0) {
+						coloursTest();
+					}
+					printf("\nWould you like to go back to the switchboard?\n");
+					scanf("%s", yesno);
+					upperCase(yesno);
+					if (strcmp(yesno, "NO")==0 || strcmp(yesno, "N")==0) {
+						printf("\nThanks for using the French translation program.\n");
+						switchboardStillOpen = 0;
+					}
 				}
 			}
 		}
+		else if (strcmp(choice, "QUIT")==0 || strcmp(choice, "Q")==0) {
+			printf("\nThanks for using the French translaiton program.\n");
+			exit(0);
+		}
+		else {
+			printf("You have not chosen a category.\n");
+		}
 	}
-	else {
-		printf("You have not chosen a category.\n");
-	}
+}
+
+int main() {
+
+	// calls switchboard
+	switchboard();
 
 	// ends program successfully
 	return 0;

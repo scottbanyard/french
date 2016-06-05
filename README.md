@@ -1,6 +1,6 @@
 # Basic French Programs in C
 
-I have created two small C programs to recap the French language. 
+I have created two small C programs to recap the French language.
 
 ### frenchTranslations.c
 
@@ -14,9 +14,9 @@ This program currently:
 
 `- quick tests after translations with score system`
 
-`- updated numbers test : now you can choose how many questions you want, and it will ask you *random* numbers each time to be tested on`
+`- updated numbers, months and colours tests : can choose how many questions you want, and it will ask you *random* question each time to be tested on with no duplicated questions`
 
-`- also updated months and colours tests : can choose how many questions you want, and it will *randomly* ask you different months and colours respectively to be tested on`
+`- updated switchboard : it will now be re-called after doing a certain category and the program can be quit via the switchboard`
 
 Following this I have created a Java GUI to test users with an easier interface. This can be found at https://github.com/scottbanyard/french-gui-test-java if interested.
 
@@ -29,6 +29,3 @@ This program currently:
 `- helps with irregular verb endings`
 
 `- helps with regular verb endings`
-
-
-
