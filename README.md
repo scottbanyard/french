@@ -14,13 +14,9 @@ I have created two small C programs to recap the French language.
 ### frenchTranslations.c
 
 - translates numbers 0 to 99,999
-
 - translates months
-
 - translates colours
-
 - tests : can choose how many questions you want, and it will ask you random, non-duplicated questions each time to be tested on
-
 - switchboard allowing choice of translation options and easy user navigation
 
 Following this I have created a Java GUI to test users with an easier interface. This can be found at https://github.com/scottbanyard/french-gui-test-java if interested.
@@ -30,7 +26,5 @@ Following this I have created a Java GUI to test users with an easier interface.
 ### frenchVerbs.c
 
 - helps practise present tense
-
 - helps with irregular verb endings
-
 - helps with regular verb endings
